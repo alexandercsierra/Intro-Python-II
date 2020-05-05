@@ -14,8 +14,8 @@ class Room:
     def __str__(self):
         return f"{self.name}, {self.description}"
 
-    def remove_item(self, current_item):
-        del self.items[current_item]
+    def remove_item(self, index):
+        del self.items[index]
 
     def add_item(self, current_item):
         self.items.append(current_item)
