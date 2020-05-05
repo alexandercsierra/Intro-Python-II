@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -39,13 +40,52 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
-# Write a loop that:
-#
-# * Prints the current room name
-# * Prints the current description (the textwrap module might be useful here).
-# * Waits for user input and decides what to do.
-#
+# # Write a loop that:
+# #
+# direction = None
+# while direction != 'q':
+#     # * Prints the current room name
+#     # * Prints the current description (the textwrap module might be useful here).
+#     # * Waits for user input and decides what to do.
 # If the user enters a cardinal direction, attempt to move to the room there.
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+
+def adventure(): 
+    room_name = 'outside'
+    curr_room = room[room_name]
+    player = Player(curr_room)
+    direction = None
+    while direction != 'q':
+        print(f'You have entered the {curr_room.name}. {curr_room.description}')
+        # print(curr_room.name)
+        # print(curr_room.description)
+        direction = input('Which direction shall you go?')
+        if direction == 'n':
+            if hasattr(curr_room, 'n_to'):
+                curr_room = curr_room.n_to
+            else: 
+                print('THERE IS NOTHING TO THE NORTH')
+        elif direction == 'e':
+            if hasattr(curr_room, 'e_to'):
+                curr_room = curr_room.e_to
+            else: 
+                print('THERE IS NOTHING TO THE EAST')
+        elif direction == 's':
+            if hasattr(curr_room, 's_to'):
+                curr_room = curr_room.s_to
+            else: 
+                print('THERE IS NOTHING TO THE SOUTH') 
+        elif direction == 'w':
+            if hasattr(curr_room, 'w_to'):
+                curr_room = curr_room.w_to
+            else: 
+                print('THERE IS NOTHING TO THE WEST')
+        else:
+            print('PLEASE ENTER either n s e or w TO MOVE OR q TO QUIT')
+    print('thanks for playing')
+
+
+adventure()
