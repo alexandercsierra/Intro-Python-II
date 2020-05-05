@@ -77,6 +77,7 @@ def adventure():
                     curr_room.remove_item(0)
                     print(f'your current inventory is {player.items}.')
                     print(f'the room now contains {curr_room.items}')
+            #if the room is empty        
             else:
                 print(f'You found nothing. May as well move on.')
 
