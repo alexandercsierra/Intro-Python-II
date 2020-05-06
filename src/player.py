@@ -8,4 +8,6 @@ class Player:
     def __str__(self):
         return f"current room is {self.currentRoom}"
     def take_item(self, item):
-        self.items.append(item)    
+        self.items.append(item)
+    def leave_item(self, index):
+        del self.items[index]  

@@ -1,11 +1,14 @@
 from room import Room
 from player import Player
+from item import Item
+from search_room import search_room
+from travel_to_room import travel_to_room
 
 # Declare all the rooms
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons", ['sword']),
+                     "North of you, the cave mount beckons", ['sword', 'ring']),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east.""", []),
@@ -20,6 +23,11 @@ to north. The smell of gold permeates the air.""",[]),
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south.""",[]),
+}
+
+item_list = {
+    'sword': Item('a sword', 'a big scary blade'),
+    'ring': Item('the one ring', 'one ring to rule them all')
 }
 
 
@@ -53,61 +61,60 @@ room['treasure'].s_to = room['narrow']
 # If the user enters "q", quit the game.
 
 
+
 def adventure(): 
     room_name = 'outside'
     curr_room = room[room_name]
     player = Player(curr_room)
     direction = None
+
     while direction != 'q':
 
-        print(f'You have entered the {curr_room.name}. {curr_room.description}')
-        action = input('Would you like to travel or search?')
+        print(f'\nYou have entered the {curr_room.name}. {curr_room.description}')
+        action = input('Would you like to travel or search?\n\n')
         if action == "q":
-            return print(f'thanks for playing')
-
-        #searching the room
+            return print(f'thanks for playing\n')
+        #searching a room
         if action == 'search' or action == 's':
-            #if the room contains items
-            if len(curr_room.items) > 0:
-                print(f'you found {curr_room.items}')
-                take = input(f'would you like to take the {curr_room.items}?')
-                if take == 'yes' or take == 'y':
-                    print(f'you have taken {curr_room.items}.')
-                    player.take_item(curr_room.items[0])
-                    curr_room.remove_item(0)
-                    print(f'your current inventory is {player.items}.')
-                    print(f'the room now contains {curr_room.items}')
-            #if the room is empty        
-            else:
-                print(f'You found nothing. May as well move on.')
-
+            search_room(action, curr_room, player)
         #traveling between rooms
         elif action == 'travel' or action == 't':
-            direction = input('Which direction shall you go?')
-            if direction == 'n':
-                if curr_room.n_to != None:
-                    curr_room = curr_room.n_to
-                else: 
-                    print('THERE IS NOTHING TO THE NORTH')
-            elif direction == 'e':
-                # if hasattr(curr_room, 'e_to'):
-                if curr_room.e_to != None:
-                    curr_room = curr_room.e_to
-                else: 
-                    print('THERE IS NOTHING TO THE EAST')
-            elif direction == 's':
-                if curr_room.s_to != None:
-                    curr_room = curr_room.s_to
-                else: 
-                    print('THERE IS NOTHING TO THE SOUTH') 
-            elif direction == 'w':
-                if curr_room.w_to != None:
-                    curr_room = curr_room.w_to
-                else: 
-                    print('THERE IS NOTHING TO THE WEST')
+            curr_room = travel_to_room(curr_room)
+        elif action == 'help' or action == 'h':
+            print('Type t or s to select travel or search. When traveling, type n s e or w to move in a cardinal direciton. When searching, type the name of the item you would like to collect. Type i to access inventory.')
+        elif action == 'inventory' or action == 'i':
+            if len(player.items) > 0:
+                print('\nyour current inventory includes:')
+                print(*player.items)
+                drop = input('Examine or drop an item?\n')
+                if 'examine' in drop or 'drop' in drop:
+                    split = drop.split()
+                    selected = split[1]
+                    act = split[0]
+                    if act == 'drop':
+                        if selected in player.items:
+                            index = player.items.index(selected)
+                            print(f'\nYou have dropped the {player.items[index]}')
+                            player.leave_item(index)
+                            curr_room.add_item(selected)
+                            print(f'current room items {curr_room.items}')
+                            print(f'inventory {player.items}')
+                    elif act == 'examine':
+                        if selected in player.items:
+                            print(item_list[selected].description)
+                            print('\n\n')
+                else:
+                    print('')
             else:
-                print('PLEASE ENTER either n s e or w TO MOVE OR q TO QUIT')
-    print('thanks for playing')
+                print("\n you aren't carrying anything right now")
+    print('thanks for playing\n')
 
 
 adventure()
+
+
+
+
+
+
+
