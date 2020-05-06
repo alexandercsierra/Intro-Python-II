@@ -2,6 +2,7 @@ from room import Room
 from player import Player
 from item import Item
 from item import Treasure
+from item import LightSource
 from search_room import search_room
 from travel_to_room import travel_to_room
 from inventory import inventory
@@ -11,30 +12,31 @@ from inventory import inventory
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons", ['sword', 'ring']),
+                     "North of you, the cave mount beckons", ['sword', 'ring'], True, True),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east.""", []),
+passages run north and east.""", ['torch'], True, True),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm.""",[]),
+the distance, but there is no way across the chasm.""",[], True, True),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air.""",[]),
+to north. The smell of gold permeates the air.""",[], False, False),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south.""",[]),
+earlier adventurers. The only exit is to the south.""",[], False, False),
 
-    'secret': Room("Secret Passage", """You spot a suspicious looking brick in the wall which comes loose, revealing a passage. Through the hole you see a glimmer of light. Opening a few more bricks you squeeze through to find a pile of gold lying on the floor.""",['gold']),
+    'secret': Room("Secret Passage", """You spot a suspicious looking brick in the wall which comes loose, revealing a passage. Through the hole you see a glimmer of light. Opening a few more bricks you squeeze through to find a pile of gold lying on the floor.""",['gold'], False, False),
 }
 
 item_list = {
     'sword': Item('a sword', 'a big scary blade'),
     'ring': Item('the one ring', 'one ring to rule them all'),
     'gold': Treasure('pile of gold', 'looks shiny', 1000000),
-    'diamond': Treasure('diamond', 'very nice cut', 10000)
+    'diamond': Treasure('diamond', 'very nice cut', 10000),
+    'torch': LightSource('torch', 'a beacon of light')
 }
 
 
@@ -77,8 +79,11 @@ def adventure():
     quit = False
 
     while quit == False:
-
-        print(f'\nYou have entered the {curr_room.name}. {curr_room.description}')
+        if 'torch' in player.items:
+            curr_room.illuminate()
+        else:
+            curr_room.darken()
+        print(curr_room)
         action = input('Would you like to travel or search?\n\n')
         if action == "q":
             # return print(f'Thanks for playing\n')

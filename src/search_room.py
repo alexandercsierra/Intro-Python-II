@@ -1,6 +1,7 @@
 def search_room(action, curr_room, player, item_list):
      #searching the room
-        
+        #does the room have natural light or does the player have a torch or is the torch in the current room
+        if curr_room.isLight == True or curr_room.naturalLight == True or 'torch' in curr_room.items:
             #if the room contains items
             if len(curr_room.items) > 0:   
                 print('You have found:')             
@@ -27,5 +28,9 @@ def search_room(action, curr_room, player, item_list):
             #if the room is empty        
             else:
                 print(f'\nYou found nothing. May as well move on.\n')
+        #the room is too dark to see
+        else: 
+            print(f'\nGood luck finding anything in the dark...')
+
 
                 
