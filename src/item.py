@@ -7,10 +7,13 @@ class Item:
         return f'{self.name}, {self.description}'
 
     def on_drop(self):
-        print(f'You have dropped the {self.name}')
+        print(f'You have dropped {self.name}')
 
     def on_take(self):
-        print(f'You have picked up the {self.name}')
+        print(f'You have picked up {self.name}')
+    
+
+
 
 class Treasure(Item):
     def __init__(self, name, description, value):
@@ -20,13 +23,15 @@ class Treasure(Item):
     def __str__(self):
         return f"{self.name} is worth ${self.value}"
 
+
+
 class LightSource(Item):
     def __init__(self, name, description):
         super().__init__(name, description)
 
     def on_drop(self):
         print(f"It's not wise to drop your source of light!")
-        
+
     
 
 

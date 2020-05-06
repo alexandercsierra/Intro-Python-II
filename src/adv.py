@@ -12,30 +12,30 @@ from inventory import inventory
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons", ['sword', 'ring'], True, True),
+                     "North of you, the cave mount beckons", ['sword', 'ring'], True, True, "", ""),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east.""", ['torch'], True, True),
+passages run north and east.""", ['torch'], True, True, "ring", "You correctly used the ring"),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm.""",[], True, True),
+the distance, but there is no way across the chasm.""",[], True, True, "ring", "You toss the ring into the chasm. As it plunges, a the light grows until it fills the room. A new pathway opens to the north"),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air.""",[], False, False),
+to north. The smell of gold permeates the air.""",[], False, False, "", ""),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south.""",[], False, False),
+earlier adventurers. The only exit is to the south.""",[], False, False, "", ""),
 
-    'secret': Room("Secret Passage", """You spot a suspicious looking brick in the wall which comes loose, revealing a passage. Through the hole you see a glimmer of light. Opening a few more bricks you squeeze through to find a pile of gold lying on the floor.""",['gold'], False, False),
+    'secret': Room("Secret Passage", """You spot a suspicious looking brick in the wall which comes loose, revealing a passage. Through the hole you see a glimmer of light. Opening a few more bricks you squeeze through to find a pile of gold lying on the floor.""",['gold'], False, False, "", ""),
 }
 
 item_list = {
     'sword': Item('a sword', 'a big scary blade'),
     'ring': Item('the one ring', 'one ring to rule them all'),
-    'gold': Treasure('pile of gold', 'looks shiny', 1000000),
-    'diamond': Treasure('diamond', 'very nice cut', 10000),
+    'gold': Treasure('pile of gold', 'looks shiny', 10000),
+    'diamond': Treasure('diamond', 'very nice cut', 1000),
     'torch': LightSource('torch', 'a beacon of light')
 }
 
@@ -76,21 +76,30 @@ def adventure():
     room_name = 'outside'
     curr_room = room[room_name]
     player = Player(curr_room)
-    quit = False
+    end = False
+    win = False
+    playing = True
 
-    while quit == False:
+    # while playing == True and player.money < 10000:
+    while end == False and win != True:
+        
         if 'torch' in player.items:
             curr_room.illuminate()
         else:
             curr_room.darken()
         print(curr_room)
+        # if player.money >= 10000:
+        #     print('WINNING')
+        #     win = True
+        #     playing = False
+        #     print(f'playing {playing}')
         action = input('Would you like to travel or search?\n\n')
         if action == "q":
-            # return print(f'Thanks for playing\n')
-            quit = True
+            end = True
+            # playing = False
         #searching a room
         if action == 'search' or action == 's':
-            search_room(action, curr_room, player, item_list)
+            win = search_room(action, curr_room, player, item_list, win)
         #traveling between rooms
         elif action == 'travel' or action == 't':
             curr_room = travel_to_room(curr_room)
@@ -98,7 +107,10 @@ def adventure():
             print('Type t or s to select travel or search. When traveling, type n s e or w to move in a cardinal direction.\nWhen searching, type "get" and the name of the item you would like to collect.\nType i to access inventory. While in your inventory, type "examine" and the name of the item to examine it,\nor "drop" and the name of the item to drop it.')
         elif action == 'inventory' or action == 'i':
             inventory(player, item_list, curr_room)
-    print('Thanks for playing\n')
+    if win == True:
+        print("You've won!")
+    elif end == True:
+        print('Thanks for playing\n')
 
 
 adventure()
