@@ -3,6 +3,7 @@ from player import Player
 from item import Item
 from search_room import search_room
 from travel_to_room import travel_to_room
+from inventory import inventory
 
 # Declare all the rooms
 
@@ -66,14 +67,15 @@ def adventure():
     room_name = 'outside'
     curr_room = room[room_name]
     player = Player(curr_room)
-    direction = None
+    quit = False
 
-    while direction != 'q':
+    while quit == False:
 
         print(f'\nYou have entered the {curr_room.name}. {curr_room.description}')
         action = input('Would you like to travel or search?\n\n')
         if action == "q":
-            return print(f'thanks for playing\n')
+            # return print(f'Thanks for playing\n')
+            quit = True
         #searching a room
         if action == 'search' or action == 's':
             search_room(action, curr_room, player, item_list)
@@ -83,31 +85,8 @@ def adventure():
         elif action == 'help' or action == 'h':
             print('Type t or s to select travel or search. When traveling, type n s e or w to move in a cardinal direciton. When searching, type the name of the item you would like to collect. Type i to access inventory.')
         elif action == 'inventory' or action == 'i':
-            if len(player.items) > 0:
-                print('\nyour current inventory includes:')
-                print(*player.items)
-                drop = input('Examine or drop an item?\n')
-                if 'examine' in drop or 'drop' in drop:
-                    split = drop.split()
-                    selected = split[1]
-                    act = split[0]
-                    if act == 'drop':
-                        if selected in player.items:
-                            index = player.items.index(selected)
-                            item_list[selected].on_drop()
-                            player.leave_item(index)
-                            curr_room.add_item(selected)
-                            print(f'current room items {curr_room.items}')
-                            print(f'inventory {player.items}')
-                    elif act == 'examine':
-                        if selected in player.items:
-                            print(item_list[selected].description)
-                            print('\n\n')
-                else:
-                    print('')
-            else:
-                print("\n you aren't carrying anything right now")
-    print('thanks for playing\n')
+            inventory(player, item_list, curr_room)
+    print('Thanks for playing\n')
 
 
 adventure()

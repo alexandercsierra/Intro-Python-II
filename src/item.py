@@ -7,7 +7,7 @@ class Item:
         return f'{self.name}, {self.description}'
 
     def on_drop(self):
-        return f'You have dropped the {self.name}'
+        print(f'You have dropped the {self.name}')
 
     def on_take(self):
         print(f'You have picked up the {self.name}')
