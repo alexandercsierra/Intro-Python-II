@@ -18,12 +18,14 @@ def search_room(action, curr_room, player, item_list):
                             item_list[selected].on_take()
                             player.take_item(curr_room.items[index])
                             curr_room.remove_item(index)
+                            if hasattr(item_list[selected], 'value') == True:
+                                player.add_money(item_list[selected].value)
                         else: 
                             print('\nSorry, nothing by that name is here.\n')
                 else:
                     print('')
             #if the room is empty        
             else:
-                print(f'You found nothing. May as well move on.\n')
+                print(f'\nYou found nothing. May as well move on.\n')
 
                 

@@ -1,9 +1,11 @@
 from room import Room
 from player import Player
 from item import Item
+from item import Treasure
 from search_room import search_room
 from travel_to_room import travel_to_room
 from inventory import inventory
+
 
 # Declare all the rooms
 
@@ -24,11 +26,15 @@ to north. The smell of gold permeates the air.""",[]),
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south.""",[]),
+
+    'secret': Room("Secret Passage", """You spot a suspicious looking brick in the wall which comes loose, revealing a passage. Through the hole you see a glimmer of light. Opening a few more bricks you squeeze through to find a pile of gold lying on the floor.""",['gold']),
 }
 
 item_list = {
     'sword': Item('a sword', 'a big scary blade'),
-    'ring': Item('the one ring', 'one ring to rule them all')
+    'ring': Item('the one ring', 'one ring to rule them all'),
+    'gold': Treasure('pile of gold', 'looks shiny', 1000000),
+    'diamond': Treasure('diamond', 'very nice cut', 10000)
 }
 
 
@@ -42,6 +48,7 @@ room['overlook'].s_to = room['foyer']
 room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
+room['treasure'].n_to = room['secret']
 
 #
 # Main
