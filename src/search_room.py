@@ -1,4 +1,4 @@
-def search_room(action, curr_room, player):
+def search_room(action, curr_room, player, item_list):
      #searching the room
         
             #if the room contains items
@@ -15,7 +15,7 @@ def search_room(action, curr_room, player):
                     if act == 'get':
                         if selected in curr_room.items:
                             index = curr_room.items.index(selected)
-                            print(f'\nYou have taken the {curr_room.items[index]}.\n')
+                            item_list[selected].on_take()
                             player.take_item(curr_room.items[index])
                             curr_room.remove_item(index)
                         else: 

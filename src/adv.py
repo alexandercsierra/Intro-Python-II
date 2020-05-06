@@ -76,7 +76,7 @@ def adventure():
             return print(f'thanks for playing\n')
         #searching a room
         if action == 'search' or action == 's':
-            search_room(action, curr_room, player)
+            search_room(action, curr_room, player, item_list)
         #traveling between rooms
         elif action == 'travel' or action == 't':
             curr_room = travel_to_room(curr_room)
@@ -94,7 +94,7 @@ def adventure():
                     if act == 'drop':
                         if selected in player.items:
                             index = player.items.index(selected)
-                            print(f'\nYou have dropped the {player.items[index]}')
+                            item_list[selected].on_drop()
                             player.leave_item(index)
                             curr_room.add_item(selected)
                             print(f'current room items {curr_room.items}')
