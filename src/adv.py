@@ -83,7 +83,7 @@ def adventure():
         elif action == 'travel' or action == 't':
             curr_room = travel_to_room(curr_room)
         elif action == 'help' or action == 'h':
-            print('Type t or s to select travel or search. When traveling, type n s e or w to move in a cardinal direciton. When searching, type the name of the item you would like to collect. Type i to access inventory.')
+            print('Type t or s to select travel or search. When traveling, type n s e or w to move in a cardinal direction.\nWhen searching, type "get" and the name of the item you would like to collect.\nType i to access inventory. While in your inventory, type "examine" and the name of the item to examine it,\nor "drop" and the name of the item to drop it.')
         elif action == 'inventory' or action == 'i':
             inventory(player, item_list, curr_room)
     print('Thanks for playing\n')
