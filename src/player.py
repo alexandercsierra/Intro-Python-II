@@ -2,8 +2,8 @@
 # currently.
 
 class Player:
-    def __init__(self, currentRoom):
-        self.currentRoom = currentRoom
+    def __init__(self, current_room):
+        self.current_room = current_room
         self.items = []
         self.money = 0
     def __str__(self):

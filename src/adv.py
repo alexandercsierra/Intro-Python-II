@@ -88,6 +88,7 @@ def adventure():
         else:
             curr_room.darken()
         print(curr_room)
+        print(player.current_room)
         # if player.money >= 10000:
         #     print('WINNING')
         #     win = True
