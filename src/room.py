@@ -55,6 +55,7 @@ class Room:
         print(self.item_use_failure)
 
     def success(self):
+        print('\n')
         print(self.item_use_success)
         self.new_passage = True
 

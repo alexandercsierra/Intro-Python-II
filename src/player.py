@@ -20,10 +20,10 @@ class Player:
             return self.current_room
 
     def print_inv(self):
-        print('\nYour inventory currently contains:\n')
+        print('\nYour inventory currently contains:')
         for item in self.items:
-            print(item)
-        print(f'\nWallet: {self.money}\n')
+            print(item.name)
+        print(f'Wallet: {self.money}\n')
 
     def take_item(self, item):
         if item.name in self.current_room.items:

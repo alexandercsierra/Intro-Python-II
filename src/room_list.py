@@ -10,7 +10,7 @@ passages run north and east.""", ['torch'], True, True, "", "", "", "", ""),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm.""",[], True, True, "ring", "You toss the ring into the chasm. As it plunges, a the light grows until it fills the room. A new pathway opens to the north", "A new path is open before you to the north", "" , ""),
+the distance, but there is no way across the chasm.""",[], True, True, "ring", "You toss the ring into the chasm. As it plunges, a the light grows until it fills the room. Lava surges up until it lands on either side of the chasm and quickly cools, forming a new pathway to the north", "A new path is open before you to the north, via lava bridge. The way back is south.", "Lava bubbles below." , "How did it cool so fast? How can it support your weight? Magic. It's magic lava, ok?"),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
 to north. The smell of gold permeates the air.""",[], False, False, "", "", "", "" , ""),

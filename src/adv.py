@@ -86,21 +86,22 @@ def adventure():
                 else:
                     player.current_room.describe()
         elif action == 'examine':
-                print('Be more specific. Examine what?')
-            
+                print("Be more specific. Examine what (item name or 'room')?")
+        #open inventory
+        elif action == 'inventory' or action == 'i':
+            player.print_inv()
+        #possible commands
+        elif action in ['help', 'h', '?']:
+            print("Travel or search by using 't' or 's'. Travel 'n' 's' 'e' or 'w' .\nGet an item with 'get [name of item]' and drop with 'drop [name of item]. Use 'q' or 'quit' to end the game.\n")
         else: 
             print("I don't understand what you mean. Use 'h' to see list of available options")
 
-        #open inventory
-        if action == 'inventory' or action == 'i':
-            player.print_inv()
+        
 
-        #possible commands
-        if action in ['help', 'h', '?']:
-            print("Travel or search by using 't' or 's'. Travel 'n' 's' 'e' or 'w' .\nGet an item with 'get [name of item]' and drop with 'drop [name of item]. Use 'q' or 'quit' to end the game.\n")
+        
 
     if win == True:
-        print("You've won!")
+        print(f"Congratulations, {player.name}! You've found the treasure and won!")
     elif end == True:
         print('Thanks for playing\n')
 
