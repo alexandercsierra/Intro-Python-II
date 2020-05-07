@@ -22,7 +22,20 @@ class Room:
         else:
             return f"It's pitch black!"
 
-    def remove_item(self, index):
+    def search_room(self):
+        if self.isLight == True or self.naturalLight == True or 'torch' in self.items:
+            #if the room contains items
+            if len(self.items) > 0:   
+                print('You have found:')             
+                print(*self.items)
+                print('\n')
+            else:
+                print(f'\nYou found nothing. May as well move on.\n')
+        else: 
+            print(f'\nGood luck finding anything in the dark...')
+
+    def remove_item(self, item):
+        index = self.items.index(item)
         del self.items[index]
 
     def add_item(self, current_item):

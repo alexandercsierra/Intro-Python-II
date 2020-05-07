@@ -3,8 +3,6 @@ from player import Player
 from item import Item
 from item import Treasure
 from item import LightSource
-from search_room import search_room
-from travel_to_room import travel_to_room
 from inventory import inventory
 
 
@@ -32,9 +30,9 @@ earlier adventurers. The only exit is to the south.""",[], False, False, "", "")
 }
 
 item_list = {
-    'sword': Item('a sword', 'a big scary blade'),
-    'ring': Item('the one ring', 'one ring to rule them all'),
-    'gold': Treasure('pile of gold', 'looks shiny', 10000),
+    'sword': Item('sword', 'a big scary blade'),
+    'ring': Item('ring', 'one ring to rule them all'),
+    'gold': Treasure('gold', 'looks shiny', 10000),
     'diamond': Treasure('diamond', 'very nice cut', 1000),
     'torch': LightSource('torch', 'a beacon of light')
 }
@@ -73,41 +71,46 @@ room['treasure'].n_to = room['secret']
 
 
 def adventure(): 
-    room_name = 'outside'
-    curr_room = room[room_name]
-    player = Player(curr_room)
+    player = Player(room['outside'])
     end = False
     win = False
-    playing = True
 
-    # while playing == True and player.money < 10000:
     while end == False and win != True:
-        
-        if 'torch' in player.items:
-            curr_room.illuminate()
+        if player.money > 10000:
+            win = True
+            break
+        #darken or light the room depending on if the player has the torch in their inventory
+        if item_list['torch'] in player.items:
+            player.current_room.illuminate()
         else:
-            curr_room.darken()
-        print(curr_room)
+            player.current_room.darken()
+ 
+
         print(player.current_room)
-        # if player.money >= 10000:
-        #     print('WINNING')
-        #     win = True
-        #     playing = False
-        #     print(f'playing {playing}')
-        action = input('Would you like to travel or search?\n\n')
+        action = input('What would you like to do?\n\n')
         if action == "q":
             end = True
-            # playing = False
+
         #searching a room
-        if action == 'search' or action == 's':
-            win = search_room(action, curr_room, player, item_list, win)
+        if action == 'search':
+            player.current_room.search_room()
         #traveling between rooms
-        elif action == 'travel' or action == 't':
-            curr_room = travel_to_room(curr_room)
-        elif action == 'help' or action == 'h':
-            print('Type t or s to select travel or search. When traveling, type n s e or w to move in a cardinal direction.\nWhen searching, type "get" and the name of the item you would like to collect.\nType i to access inventory. While in your inventory, type "examine" and the name of the item to examine it,\nor "drop" and the name of the item to drop it.')
+        if action == 'n' or action == 's' or action == 'e' or action == 'w':
+            player.current_room = player.move(action)
+        elif 'get' in action:
+            split = action.split()
+            selected = split[1]
+            player.take_item(item_list[selected])
+        elif 'drop' in action:
+            split = action.split()
+            selected = split[1]
+            player.drop_item(item_list[selected])
+
+        elif action in ['help', 'h', '?']:
+            print("Travel or search by using 't' or 's'. Travel 'n' 's' 'e' or 'w' .\nGet an item with 'get [name of item]' and drop with 'drop [name of item]. Use 'q' or 'quit' to end the game.\n")
         elif action == 'inventory' or action == 'i':
-            inventory(player, item_list, curr_room)
+            player.print_inv()
+
     if win == True:
         print("You've won!")
     elif end == True:
