@@ -2,7 +2,8 @@
 # currently.
 
 class Player:
-    def __init__(self, current_room):
+    def __init__(self, name, current_room):
+        self.name = name
         self.current_room = current_room
         self.items = []
         self.money = 0
@@ -26,14 +27,19 @@ class Player:
 
     def take_item(self, item):
         if item.name in self.current_room.items:
+            if hasattr(item, 'value'):
+                self.money += item.value
             self.items.append(item)
             item.on_take()
             self.current_room.remove_item(item.name) 
+
         else:
             print('Nothing by that name here')
         
     def drop_item(self, item):
         if item in self.items:
+            if hasattr(item, 'value'):
+                self.money -= item.value
             index = self.items.index(item)
             item.on_drop() 
             self.current_room.add_item(item.name)      
@@ -46,3 +52,15 @@ class Player:
         
     def remove_money(self, amount):
         self.money -= amount
+
+    def use_item(self, item):
+        if item.name == self.current_room.correct_item:
+            self.drop_item(item)
+            self.current_room.success()
+        else:
+            print(self.current_room.item_use_failure)
+
+    def examine_item(self, item):
+        if item in self.items or item.name in self.current_room.items:
+            print(item)
+

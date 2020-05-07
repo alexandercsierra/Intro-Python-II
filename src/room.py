@@ -2,9 +2,10 @@
 # description attributes.
 
 class Room:
-    def __init__(self, name, description, items, isLight, naturalLight, correct_item, ius):
+    def __init__(self, name, description, items, isLight, naturalLight, correct_item, ius, alt_desc, detail, alt_detail):
         self.name = name
         self.description = description
+        self.new_passage = False
         self.items = items
         self.isLight = isLight
         self.naturalLight = naturalLight
@@ -15,6 +16,9 @@ class Room:
         self.correct_item = correct_item
         self.item_use_success = ius
         self.item_use_failure = 'Not sure what you were expecting, but nothing happened.'
+        self.alt_desc = alt_desc
+        self.detail = detail
+        self.alt_detail = alt_detail
 
     def __str__(self):
         if self.isLight == True or self.naturalLight == True:
@@ -52,4 +56,10 @@ class Room:
 
     def success(self):
         print(self.item_use_success)
+        self.new_passage = True
 
+    def describe(self):
+        if self.new_passage == False:
+            print(self.detail)
+        else: 
+            print(self.alt_detail)
