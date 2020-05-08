@@ -5,7 +5,16 @@ from item import Treasure
 from item import LightSource
 from room_list import room
 from item_list import item_list
+from colorama import init
+from colorama import Fore, Back, Style
 
+
+init(autoreset=True)
+# print(Fore.RED + 'some red text')
+# print(Back.GREEN + 'and with a green background')
+# print(Style.DIM + 'and in dim text')
+# # print(Style.RESET_ALL)
+# print('back to normal now')
 
 
 # Link rooms together
@@ -22,14 +31,15 @@ room['workroom'].s_to = room['overlook']
 room['secret'].s_to = room['treasure']
 
 
-
+help_text = "Travel using:" + Fore.GREEN + " n s e w " + Style.RESET_ALL + "\nSearch a room by typing "+ Fore.GREEN +"search"+ Style.RESET_ALL +"\nExamine the current room by typing"+ Fore.GREEN +" examine room "+ Style.RESET_ALL +" or an item by typing "+ Fore.GREEN +" examine [name of item]"+ Style.RESET_ALL +"\nGet an item with "+ Fore.GREEN +"get [name of item]"+ Style.RESET_ALL + " and drop with "+ Fore.GREEN +"drop [name of item]"+ Style.RESET_ALL + "\nUse an item with"+ Fore.GREEN +" use [name of item]"+ Style.RESET_ALL + "\nOpen inventory with"+ Fore.GREEN +" i"+ Style.RESET_ALL + "\nUse "+ Fore.RED +"q"+ Style.RESET_ALL + " or "+ Fore.RED +"quit"+ Style.RESET_ALL + " to end the game.\n"
 
 def adventure(): 
     name = input("What's your name?\n")
     player = Player(name, room['outside'])
     end = False
     win = False
-    print(f'Welcome, treasure-hunter {player.name}. Riches lie within.')
+    print(Fore.BLUE + Back.BLACK + f'\nWelcome, treasure-hunter {player.name}. Riches lie within.')
+    print("Type" + Fore.RED +" 'h'" + Style.RESET_ALL + " or " + Fore.RED + "'help' " + Style.RESET_ALL + "to see a list of possible commands\n")
     selected = None
 
     while end == False and win == False:
@@ -56,7 +66,7 @@ def adventure():
  
         print('\n')
         if player.current_room.new_passage == True:
-            print(player.current_room.alt_desc)
+            print(f'{Fore.BLUE}{player.current_room.alt_desc}')
         else:
             print(player.current_room)
         action = input('What would you like to do?\n\n')
@@ -72,38 +82,45 @@ def adventure():
         elif action == 'n' or action == 's' or action == 'e' or action == 'w':
             player.current_room = player.move(action)
         #item usage
+        elif 'destroy' in action:
+            print(Fore.BLUE + "Please don't.")
+        elif 'jump' in action:
+            print(Fore.BLUE + "You start hopping for some reason. Good thing no one's here to witness this.")
         elif len(split) > 1:
             selected = split[1]
-            if 'get' in action:
-                player.take_item(item_list[selected])
-            elif 'drop' in action:
-                player.drop_item(item_list[selected])
-            elif 'use' in action:
-                player.use_item(item_list[selected])
+            if selected in item_list:
+                if 'get' in action:
+                    player.take_item(item_list[selected])
+                elif 'drop' in action:
+                    player.drop_item(item_list[selected])
+                elif 'use' in action:
+                    player.use_item(item_list[selected])
             elif 'examine' in action:
                 if selected != 'room':
                     player.examine_item(item_list[selected])
                 else:
                     player.current_room.describe()
+            else:
+                print(Fore.RED + "Not sure what you wanted. Try typing 'h' for a list of valid commands.")
         elif action == 'examine':
-                print("Be more specific. Examine what (item name or 'room')?")
+                print(Fore.RED + "Be more specific. Examine what (item name or 'room')?")
         #open inventory
         elif action == 'inventory' or action == 'i':
             player.print_inv()
         #possible commands
         elif action in ['help', 'h', '?']:
-            print("Travel 'n' 's' 'e' or 'w' .\nGet an item with 'get [name of item]' and drop with 'drop [name of item].\nUse an item with 'use [name of item]'.\nOpen inventory with 'i'.\nExamine the current room by typing 'examine room' or an item by typing 'examine [name of item]'.\nUse 'q' or 'quit' to end the game.\n")
+            print(help_text)
         else:
-            print("I don't understand what you mean. Use 'h' to see list of available options")
+            print(Fore.RED + "I don't understand what you mean. Use 'h' to see list of available options")
 
         
 
         
 
     if win == True:
-        print(f"Congratulations, {player.name}! You've found the treasure and won!")
+        print(Fore.YELLOW + f"Congratulations, {player.name}! You've found the treasure and won!")
     elif end == True:
-        print('Thanks for playing\n')
+        print(f'{Fore.GREEN}Thanks for playing\n')
 
 
 adventure()

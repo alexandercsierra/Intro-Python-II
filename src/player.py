@@ -1,5 +1,8 @@
-# Write a class to hold player information, e.g. what room they are in
-# currently.
+from colorama import init
+from colorama import Fore, Back, Style
+
+
+init(autoreset=True)
 
 class Player:
     def __init__(self, name, current_room):
@@ -16,14 +19,14 @@ class Player:
         if hasattr(self.current_room, attribute) and getattr(self.current_room, attribute) != None:
             return getattr(self.current_room, attribute)
         else:
-            print("Can't go that way")
+            print(Fore.RED + "Can't go that way")
             return self.current_room
 
     def print_inv(self):
-        print('\nYour inventory currently contains:')
+        print(Fore.CYAN + '\nYour inventory currently contains:')
         for item in self.items:
             print(item.name)
-        print(f'Wallet: {self.money}\n')
+        print(Fore.YELLOW + f'Wallet: {self.money}\n')
 
     def take_item(self, item):
         if item.name in self.current_room.items:

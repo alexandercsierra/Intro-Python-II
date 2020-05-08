@@ -1,3 +1,10 @@
+from colorama import init
+from colorama import Fore, Back, Style
+
+
+init(autoreset=True)
+
+
 class Item:
     def __init__(self, name, description):
         self.name = name
@@ -10,7 +17,7 @@ class Item:
         print(f'You have dropped {self.name}')
 
     def on_take(self):
-        print(f'You have picked up {self.name}')
+        print(Fore.GREEN + f'You have picked up {self.name}')
     
 
 
