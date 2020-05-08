@@ -39,7 +39,7 @@ def adventure():
     player = Player(name, room['outside'])
     end = False
     win = False
-    print(Fore.BLUE + Back.BLACK + f'\nWelcome, treasure-hunter {player.name}. Riches lie within.')
+    print(Fore.BLUE + f'\nWelcome, treasure-hunter {player.name}. Riches lie within.')
     print("Type" + Fore.RED +" 'h'" + Style.RESET_ALL + " or " + Fore.RED + "'help' " + Style.RESET_ALL + "to see a list of possible commands\n")
     selected = None
 

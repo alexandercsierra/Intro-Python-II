@@ -38,7 +38,7 @@ class Player:
             self.current_room.remove_item(item.name) 
 
         else:
-            print('Nothing by that name here')
+            print(f'{Fore.RED}Nothing by that name here')
         
     def drop_item(self, item):
         if item in self.items:
@@ -49,7 +49,7 @@ class Player:
             self.current_room.add_item(item.name)      
             del self.items[index]  
         else:
-            print("You don't have anything like that")
+            print(f"{Fore.RED}You don't have anything like that")
 
     def add_money(self, amount):
         self.money += amount
@@ -63,7 +63,7 @@ class Player:
             self.current_room.success()
             self.current_room.remove_item(item.name)
         else:
-            print(self.current_room.item_use_failure)
+            print(f'{Fore.RED}{self.current_room.item_use_failure}')
 
     def examine_item(self, item):
         if item in self.items or item.name in self.current_room.items:
