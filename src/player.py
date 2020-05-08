@@ -10,12 +10,14 @@ class Player:
         self.current_room = current_room
         self.items = []
         self.money = 0
+        self.moves = []
 
     def __str__(self):
         return f"current room is {self.currentRoom}"
 
     def move(self, direction):
         attribute = direction + "_to"
+        print('attr', attribute)
         if hasattr(self.current_room, attribute) and getattr(self.current_room, attribute) != None:
             return getattr(self.current_room, attribute)
         else:
@@ -60,6 +62,7 @@ class Player:
         if item.name == self.current_room.correct_item:
             self.drop_item(item)
             self.current_room.success()
+            self.current_room.remove_item(item.name)
         else:
             print(self.current_room.item_use_failure)
 
@@ -67,3 +70,17 @@ class Player:
         if item in self.items or item.name in self.current_room.items:
             print(item)
 
+    def go_back(self):
+        opps = {
+            'n':'s',
+            's':'n',
+            'e':'w',
+            'w':'e'
+        }
+        if len(self.moves) > 1:
+            return self.move(opps[self.moves[-1]])
+        elif len(self.moves) == 1:
+            return self.move(opps[self.moves[0]])
+        else: 
+            print(f"{Fore.RED}Sorry, you can't go back any more")
+            return self.current_room

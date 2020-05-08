@@ -81,6 +81,11 @@ def adventure():
         #traveling between rooms
         elif action == 'n' or action == 's' or action == 'e' or action == 'w':
             player.current_room = player.move(action)
+            player.moves.append(action)
+        elif action == 'b':
+            player.current_room = player.go_back()
+            if len(player.moves) > 0:
+                del player.moves[-1]
         #item usage
         elif 'destroy' in action:
             print(Fore.BLUE + "Please don't.")

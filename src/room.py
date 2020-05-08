@@ -63,7 +63,10 @@ class Room:
         self.new_passage = True
 
     def describe(self):
-        if self.new_passage == False:
-            print(f'{Fore.MAGENTA}{self.detail}')
-        else: 
-            print(f'{Fore.MAGENTA}{self.alt_detail}')
+        if self.isLight == True or self.naturalLight == True:
+            if self.new_passage == False:
+                print(f'{Fore.MAGENTA}{self.detail}')
+            else: 
+                print(f'{Fore.MAGENTA}{self.alt_detail}')
+        else:
+            print(f"{Fore.MAGENTA}It's too dark to see anything.")
