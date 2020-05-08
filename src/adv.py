@@ -29,9 +29,10 @@ room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 room['workroom'].s_to = room['overlook']
 room['secret'].s_to = room['treasure']
+room['tomb'].w_to = room['secret']
 
 
-help_text = "Travel using:" + Fore.GREEN + " n s e w " + Style.RESET_ALL + "\nSearch a room by typing "+ Fore.GREEN +"search"+ Style.RESET_ALL +"\nExamine the current room by typing"+ Fore.GREEN +" examine room "+ Style.RESET_ALL +" or an item by typing "+ Fore.GREEN +" examine [name of item]"+ Style.RESET_ALL +"\nGet an item with "+ Fore.GREEN +"get [name of item]"+ Style.RESET_ALL + " and drop with "+ Fore.GREEN +"drop [name of item]"+ Style.RESET_ALL + "\nUse an item with"+ Fore.GREEN +" use [name of item]"+ Style.RESET_ALL + "\nOpen inventory with"+ Fore.GREEN +" i"+ Style.RESET_ALL + "\nUse "+ Fore.RED +"q"+ Style.RESET_ALL + " or "+ Fore.RED +"quit"+ Style.RESET_ALL + " to end the game.\n"
+help_text = "Travel using:" + Fore.GREEN + " n s e w " + Style.RESET_ALL + " or " + Fore.GREEN + "b "+ Style.RESET_ALL + "to go back."+"\nSearch a room by typing "+ Fore.GREEN +"search"+ Style.RESET_ALL +"\nExamine the current room by typing"+ Fore.GREEN +" examine room "+ Style.RESET_ALL +" or an item by typing "+ Fore.GREEN +" examine [name of item]"+ Style.RESET_ALL +"\nGet an item with "+ Fore.GREEN +"get [name of item]"+ Style.RESET_ALL + " and drop with "+ Fore.GREEN +"drop [name of item]"+ Style.RESET_ALL + "\nUse an item with"+ Fore.GREEN +" use [name of item]"+ Style.RESET_ALL + "\nOpen inventory with"+ Fore.GREEN +" i"+ Style.RESET_ALL + "\nUse "+ Fore.RED +"q"+ Style.RESET_ALL + " or "+ Fore.RED +"quit"+ Style.RESET_ALL + " to end the game.\n"
 
 def adventure(): 
     name = input("What's your name?\n")
@@ -50,6 +51,9 @@ def adventure():
                 room['overlook'].n_to = room['workroom']
             if player.current_room.name == 'Treasure Chamber':
                 room['treasure'].n_to = room['secret']
+            if player.current_room.name == 'Secret Passage':
+                room['secret'].e_to = room['tomb']
+
 
 
 
@@ -82,7 +86,7 @@ def adventure():
         elif action == 'n' or action == 's' or action == 'e' or action == 'w':
             player.current_room = player.move(action)
             player.moves.append(action)
-        elif action == 'b':
+        elif action == 'b' or action == 'back':
             player.current_room = player.go_back()
             if len(player.moves) > 0:
                 del player.moves[-1]

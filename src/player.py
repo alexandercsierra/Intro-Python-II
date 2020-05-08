@@ -17,7 +17,6 @@ class Player:
 
     def move(self, direction):
         attribute = direction + "_to"
-        print('attr', attribute)
         if hasattr(self.current_room, attribute) and getattr(self.current_room, attribute) != None:
             return getattr(self.current_room, attribute)
         else:
